@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 13:18:38 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/07/22 13:18:39 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/07/22 16:29:56 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,25 +117,30 @@ void parse_cmds(int argc, char **argv, t_cmd *cmds)
     printf("entrou no parser\n");
     while (i < argc)
     {
-        while(argv[i] && (strcmp(argv[i], "|") != 0 || strcmp(argv[i], ";") != 0))
+        while(argv[i] && (strcmp(argv[i], "|") != 0 && strcmp(argv[i], ";") != 0))
         {
+            printf("entrou no primeiro while parser\n");
             if (!cmds->args)
             {
                 k = i;
-                while (strcmp(argv[k], "|") != 0 && strcmp(argv[k], ";") != 0)
-                    k++;
-                cmds->args = malloc ((k - i + 1) * sizeof(char *));
+                while (argv[k] && strcmp(argv[k], "|") != 0 && strcmp(argv[k], ";") != 0)
+                {
+                    printf("entrou no segundo while parser\n");
+                    k++;    
+                }    
+                
+                cmds->args = malloc ((k + 1) * sizeof(char *));
             }
-            
             cmds->args[k++] = ft_strdup(argv[i]);
-            if (strcmp(argv[i + 1], "|") == 0 || strcmp(argv[i + 1], ";") == 0)
+            printf("chamou cmds->args[k++] = ft_strdup(argv[i]);\n");
+            if (argv[i + 1] && (strcmp(argv[i + 1], "|") == 0 || strcmp(argv[i + 1], ";") == 0))
                 cmds->args[k] = NULL;
             i++;
         }
         if (argv[i] && strcmp(argv[i], "|") == 0)
         {
             cmds->pipe = 1;
-            temp->next = malloc(sizeof(t_cmd *));
+            temp->next = malloc(sizeof(t_cmd));
             init_cmds(temp->next);
             temp = temp->next;
             i++;
@@ -145,7 +150,7 @@ void parse_cmds(int argc, char **argv, t_cmd *cmds)
             cmds->end = 1;
             if (argv[i + 1])
             {
-                temp->next = malloc(sizeof(t_cmd *));
+                temp->next = malloc(sizeof(t_cmd));
                 init_cmds(temp->next);
                 temp = temp->next;
                 i++;
@@ -164,10 +169,7 @@ int main(int argc, char **argv, char **envp)
         envp = envp;
     if (argc == 1)
         return (0);
-    // printf("%i\n", argc);
-    // printf("%s\n", argv[1]);
-    // printf("entrou na main\n");
-    cmds = malloc(sizeof(t_cmd *));
+    cmds = malloc(sizeof(t_cmd));
     init_cmds(cmds);
     parse_cmds(argc, argv, cmds);
     printf("%s %s %i %i\n", cmds->args[0], cmds->args[1], cmds->pipe, cmds->end);
