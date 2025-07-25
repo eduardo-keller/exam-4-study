@@ -26,26 +26,27 @@ int	ft_popen(const char *file, const char **argv, char type)
 		{
 			close(pipefd[0]);
 			dup2(pipefd[1], STDOUT_FILENO);
+			close(pipefd[1]);
 		}
 		else
 		{
 			close(pipefd[1]);
 			dup2(pipefd[0], STDIN_FILENO);
+			close(pipefd[0]);
 		}
-		
-		
 		if (execvp(argv[1], argv) == -1)
-			return (-1);
+			exit (-1);
 	}
-	else if(pid > 0)
+	if (type == 'r')
 	{
-
+		close(pipefd[1]);
+		return (pipefd[0]);
 	}
 	else
-		return (-1);
-	if (type == 'r')
-		return (pipefd[0]);
-	return (pipefd[1]);
+	{
+		close(pipefd[0]);
+		return (pipefd[1]);
+	}
 }
 
 int main (void)
@@ -65,3 +66,11 @@ int main (void)
 	// if (pid == 0)
 	// 	printf("child pid: %i\n", getpid());
 	// 	child pid: 181520
+
+	if (i == 0 || (cmds[i] && cmds[i][0] == '|'))
+    count++;
+
+
+
+	
+	
