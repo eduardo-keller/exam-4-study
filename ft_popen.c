@@ -60,17 +60,3 @@ int main (void)
 	printf("%i\n", ret); 
 }
 
-
-
-	// pid = fork();
-	// if (pid == 0)
-	// 	printf("child pid: %i\n", getpid());
-	// 	child pid: 181520
-
-	if (i == 0 || (cmds[i] && cmds[i][0] == '|'))
-    count++;
-
-
-
-	
-	
