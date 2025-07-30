@@ -1,7 +1,7 @@
-NAME = exam4
+NAME = vbc
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-SRC = given_code.c
+SRC = my_code.c
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)

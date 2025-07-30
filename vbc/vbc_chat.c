@@ -2,6 +2,12 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+// expr   = term { + term }*
+// term   = factor { * factor }*
+// factor = number | '(' expr ')'
+
+//"3+4*(2+5)"
+
 // Tree node definition
 typedef struct node {
     enum { ADD, MULTI, VAL } type;

@@ -51,7 +51,9 @@ int accept(char **s, char c)
         (*s)++;
         return (1);
     }
+		
     return (0);
+
 }
 
 int expect(char **s, char c)
